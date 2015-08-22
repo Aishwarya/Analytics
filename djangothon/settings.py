@@ -3,9 +3,6 @@ import os
 SETTINGS_DIR = os.path.join(os.path.dirname(__file__), os.pardir)
 PROJECT_ROOT  = os.path.abspath(os.path.join(SETTINGS_DIR))
 
-print SETTINGS_DIR
-print PROJECT_ROOT
-
 # Django settings for analytics project.
 
 DEBUG = True
@@ -20,7 +17,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'careerstack',                      # Or path to database file if using sqlite3.
+        'NAME': 'testdb',                      # Or path to database file if using sqlite3.
         'USER': 'testuser',                      # Not used with sqlite3.
         'PASSWORD': 'test123',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -122,7 +119,9 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'analytics',
+    'd3_analytics',
+    'hackathon',
+    'problems',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:

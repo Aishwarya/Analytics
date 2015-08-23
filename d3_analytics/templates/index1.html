@@ -1,23 +1,36 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+{% extends "base.html" %}
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-    <head>
-        <title>Analytics</title>
-    </head>
-    <body>
-        <h1>Analytics</h1>
+{% block title%}Home{% endblock %}
 
-        {% for app in app_list %}
-        <div class="app-{{ app.app_label }} module">
-        <table>
-        <caption>{{ app.name }}</caption>
-        {% for model in app.models %}
-            <tr class="model-{{ model.object_name|lower }}">
-               <td scope="row"><a href="{{ model.analytics_url }}">{{ model.name }}</a></td>
-            </tr>
-        {% endfor %}
-        </table>
+{% block extra_head %}
+<link href="{{ STATIC_URL }}d3_charts/css/d3_charts.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+    <h2>Model Analytics</h2>
+
+    {% for app in app_list %}
+    <div class="app-{{ app.app_label }} module">
+
+        <div class="table-responsive">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr><th>{{ app.name }}</th></tr>
+                </thead>
+                <tbody style="text-align:left;">
+                {% for model in app.models %}
+                    <tr class="model-{{ model.object_name|lower }}">
+                       <td scope="row" style="padding-left:50px;">
+                            <a href="{{ model.analytics_url }}">{{ model.name }}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
-        {% endfor %}
-    </body>
-</html>
+    </div>
+    {% endfor %}
+{% endblock %}
+
+

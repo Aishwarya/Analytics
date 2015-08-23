@@ -60,7 +60,7 @@ def get_model_entries_graph_data(graph_meta):
             'x_value': data[0],
             'y_value': data[1],
         })
- 
+
 
     graph_data = {
          "meta": {
@@ -80,7 +80,7 @@ def get_attribute_value_frequency_graph_data(graph_meta):
     Receives a model attribute and returns the graph data with frequency of its
     values.
     """
-    
+
     query_kwargs = {}
     if 'graph_start_datetime' in graph_meta:
         query_kwargs['timestamp__gte'] = graph_meta['graph_start_datetime']
@@ -107,17 +107,10 @@ def get_attribute_value_frequency_graph_data(graph_meta):
          "meta": {
                 "x_label": model_attribute,
                 "y_label": "Table Entries",
-                "svg_div_id":"{0}-attribute-value-frequency-id".format(
-                        model_attribute),
-                "svg_div_container": \
-                        "{0}-attribute-value-frequency-graph-container".format(
-                            model_attribute
-                        ),
+                "svg_div_id":"attribute-value-frequency-id",
+                "svg_div_container": "attribute-value-frequency-graph-container",
             },
         "data_points": data_points,
     }
 
     return graph_data
-
-   
-

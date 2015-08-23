@@ -55,14 +55,32 @@ class AnalyticsModel(object):
     def analytics_view(self, request, applabel):
         template = 'index.html'
 
-        graph_meta = {
-            'Model': self.model,
-            'graph_start_datetime': datetime.now() - timedelta(weeks=15),
-        }
-        graph_data = get_model_entries_graph_data(graph_meta)
+        graph_meta = { 'Model': self.model }
+
+        start_datetime = getattr(self, 'start_datetime', None)
+        if start_datetime:
+            graph_meta['start_datetime'] = self.start_datetime
+
+        end_datetime = getattr(self, 'end_datetime', None)
+        if end_datetime:
+            graph_meta['end_datetime'] = self.end_datetime
+
+        graph_option = getattr(self, 'graph_option', None)
+
+        if graph_option == 'MODEL_ATTRIBUTE':
+            graph_meta['model_attribute'] = self.model_attribute
+            graph_data = get_attribute_value_frequency_graph_data(
+                    graph_meta)
+        else:
+            graph_data = get_model_entries_graph_data(
+                    graph_meta)
+
+        graph_type = self.graph_type
 
         ctx = {
-            'graph_data': graph_data
+            'graph_data': graph_data,
+            'graph_type': graph_type,
+            'title': self.title,
         }
 
         ctx = RequestContext(request, ctx)

@@ -15,15 +15,15 @@ class AnalyticsModel(object):
     
     __metaclass__ = forms.MediaDefiningClass
 
-    graph_type = 'Line' # By default graph rendered is line
+    graph_type = 'LINE' # By default graph rendered is line
     ordering = None
-    time_delta = 'weekly' # By default data is aggregated by month
+    time_delta = 'WEEKLY' # By default data is aggregated by month
     title = None
     start_datetime = None #
     end_datetime = None
     is_attribute = False # set to True, if graph to be rendered for a specific attribute
-    model_attributes = None #Mandatory, if is_attribute is set to True.
-    weeks = 20
+    model_attribute = None #Mandatory, if is_attribute is set to True.
+    weeks = 30
 
     def __init__(self, model, analytics):
         self.model = model
@@ -89,8 +89,8 @@ class AnalyticsModel(object):
 
         is_attribute = getattr(self, 'is_attribute')
 
-        if is_attribute and self.model_attributes:
-            graph_meta['model_attributes'] = self.model_attributes
+        if is_attribute and self.model_attribute:
+            graph_meta['model_attribute'] = self.model_attribute
             graph_data = get_attribute_value_frequency_graph_data(
                     graph_meta)
         else:

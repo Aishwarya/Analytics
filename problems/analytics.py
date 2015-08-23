@@ -1,12 +1,9 @@
 from d3_analytics import actions
-from hackathon.models import Event
+from problems.models import Submission
 from d3_analytics.options import AnalyticsModel
 
-class EventAnalytics(AnalyticsModel):
-    graph_type = 'Line'
-    time_delta = 'weekly'
-    title = 'Event Creation'
-    ordering = ('-timestamp',)
-    
+class SubmissionAnalytics(AnalyticsModel):
+    graph_type = 'BAR'
+    title = 'Submissions Report'
 
-actions.register(Event, EventAnalytics)
+actions.register(Submission, SubmissionAnalytics)

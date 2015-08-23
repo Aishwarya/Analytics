@@ -91,7 +91,7 @@ def get_attribute_value_frequency_graph_data(graph_meta):
 
     Model = graph_meta.get('Model')
     model_attribute = graph_meta.get('model_attribute')
-
+    print query_kwargs
     entries = Model.objects.filter(**query_kwargs).values_list(
             model_attribute, flat=True)
 

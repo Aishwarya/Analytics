@@ -23,7 +23,7 @@ class AnalyticsModel(object):
     end_datetime = None
     is_attribute = False # set to True, if graph to be rendered for a specific attribute
     model_attribute = None #Mandatory, if is_attribute is set to True.
-    weeks = 30
+    weeks = 20
 
     def __init__(self, model, analytics):
         self.model = model

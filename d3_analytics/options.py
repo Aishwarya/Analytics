@@ -98,7 +98,8 @@ class AnalyticsModel(object):
                     graph_meta)
 
         ctx = {'title': self.get_graph_title()}
-        if graph_data['graph']:
+        is_graph = graph_data.pop('graph', None)
+        if is_graph:
             graph_type = self.graph_type
 
             ctx.update({

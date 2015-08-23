@@ -1,6 +1,13 @@
+from datetime import datetime, timedelta
+
 from django import forms
 from django.db import models
 from django.shortcuts import render_to_response
+from django.template import RequestContext
+
+from utils import get_model_entries_graph_data
+from utils import get_attribute_value_frequency_graph_data
+from metrics.models import RequestLog
 
 class AnalyticsModel(object):
     
@@ -8,7 +15,7 @@ class AnalyticsModel(object):
 
     graph_type = 'line' # By default graph rendered is line
     ordering = None
-    timedelta = 30 # By default data is aggregated by month
+    time_delta = 30 # By default data is aggregated by month
     title = None
 
     def __init__(self, model, analytics):
@@ -45,9 +52,18 @@ class AnalyticsModel(object):
         return self.get_urls()
     urls = property(urls)
 
-    def analytics_view(self, applabel, applabel1):
-        template = 'analytics/index'
-        ctx = { }
-        render_to_response(template, ctx)
+    def analytics_view(self, request, applabel):
+        template = 'index.html'
 
+        graph_meta = {
+            'Model': self.model,
+            'graph_start_datetime': datetime.now() - timedelta(weeks=15),
+        }
+        graph_data = get_model_entries_graph_data(graph_meta)
 
+        ctx = {
+            'graph_data': graph_data
+        }
+
+        ctx = RequestContext(request, ctx)
+        return render_to_response(template, ctx)

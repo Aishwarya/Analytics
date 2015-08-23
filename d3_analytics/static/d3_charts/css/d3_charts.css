@@ -1,0 +1,74 @@
+.line-graph-container {
+  height: 100%;
+  width: 100%;
+}
+.line-graph-svg .graph-border {
+  stroke: #eee;
+  stroke-width: 0.5;
+  fill: none;
+}
+.line-graph-svg .grid {
+  stroke: #eee;
+  shape-rendering: crispedges;
+  stroke-width: 1;
+}
+.line-graph-svg .x-axis text {
+  font-size: 10px;
+  fill: #46535e;
+  font-weight: bold;
+}
+.line-graph-svg .y-axis text {
+  font-size: 10px;
+  fill: #46535e;
+}
+.line-graph-svg .x-axis path,
+.line-graph-svg .y-axis path {
+  fill: none;
+  stroke: #aaa;
+  shape-rendering: crispedges;
+}
+.line-graph-svg .axis-label {
+  font-size: 11px !important;
+  fill: #9ca3a8 !important;
+}
+.line-graph-svg .line-graph {
+  fill: none;
+  stroke: #72b269;
+  stroke-width: 1.5px;
+}
+.line-graph-svg .dotted {
+  stroke-dasharray: 6;
+}
+.line-graph-svg .center {
+  text-align: center;
+}
+.line-graph-svg .dot-points {
+  fill: #72b269;
+  stroke: #fff;
+  stroke-width: 3px;
+}
+.d3-tip {
+  line-height: 1;
+  padding: 3px;
+  background: #000;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+}
+.d3-tip:after {
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: #000;
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+.bar-graph {
+  fill: rgba(114, 178, 105, 0.6);
+}

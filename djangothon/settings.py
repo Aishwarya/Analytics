@@ -122,6 +122,8 @@ INSTALLED_APPS = (
     'd3_analytics',
     'hackathon',
     'problems',
+    'core',
+    'metrics',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:

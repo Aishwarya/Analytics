@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title%}Home{% endblock %}
+
+{% block extra_head %}
+<link href="{{ STATIC_URL }}d3_charts/css/d3_charts.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <h1>Analytics</h1>
+
+    <div style="width:100%;height:300px">
+    	<div class="model-entries-graph-container">
+    		<div id="model-entries-graph"></div>
+    	</div>
+    </div>
+
+    {% if attribute_value_frequency_containers %}
+    {% for container in attribute_value_frequency_containers %}
+    	<div style="width:100%;height:300px">
+    		<div class="{{ container.container_class }}">
+    			<div id="{{ container.id }}"></div>
+    		</div>
+    	</div>
+    {% endfor %}
+    {% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript" src="{{ STATIC_URL }}d3_charts/js/linegraph.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}d3_charts/js/bargraph.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    var graph_data = {{ graph_data|safe }};
+    draw_bar_graph(graph_data);
+
+});
+</script>
+
+{% endblock %}

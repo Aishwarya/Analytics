@@ -47,7 +47,6 @@ class Analytics(object):
                 url(r'^%s/' % (model._meta.module_name),
                     include(model_analytics.urls))
             ]
-        print urlpatterns
         return urlpatterns
 
 
@@ -95,8 +94,36 @@ class Analytics(object):
 
 
     def index(self, request, extra_context=None):
-        template = 'analytics/index.html'
-        app_list = self.get_registered_apps()
+        template = 'index1.html'
+        #app_list = self.get_registered_apps()
+
+        app_dict = {}
+
+        models = analytics_registry
+        for model, analytic_model in models.items():
+            app_label = model._meta.app_label
+            info = (model._meta.app_label, model._meta.module_name)
+            model_dict = {
+                'name': capfirst(model._meta.verbose_name_plural),
+                'object_name': model._meta.object_name,
+                'analytics_url' : reverse('d3_analytics:%s_%s' % info, current_app=self.name, args=[model._meta.module_name])
+            }
+
+            if app_label in app_dict:
+                app_dict[app_label]['models'].append(model_dict)
+            else:
+                app_dict[app_label] = {
+                    'name': app_label.title(),
+                    'models': [model_dict],
+                }
+
+        # Sort the apps alphabetically.
+        app_list = sorted(app_dict.values(), key=lambda x: x['name'].lower())
+
+        # Sort the models alphabetically within each app.
+        for app in app_list:
+            app['models'].sort(key=lambda x: x['name'])
+
 
         ctx = dict(
             self.each_context(),

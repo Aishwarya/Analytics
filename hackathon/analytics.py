@@ -5,7 +5,5 @@ from d3_analytics.options import AnalyticsModel
 class EventAnalytics(AnalyticsModel):
     graph_type = 'LINE'
     time_delta = 'WEEKLY'
-    title = 'Event Creation'
     ordering = ('-timestamp',)
-
 actions.register(Event, EventAnalytics)

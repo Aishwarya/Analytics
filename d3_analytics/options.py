@@ -10,13 +10,20 @@ from utils import get_attribute_value_frequency_graph_data
 from metrics.models import RequestLog
 
 class AnalyticsModel(object):
+    """Encapsulates all analytics options and functionality for a model.
+    """
     
     __metaclass__ = forms.MediaDefiningClass
 
-    graph_type = 'line' # By default graph rendered is line
+    graph_type = 'Line' # By default graph rendered is line
     ordering = None
-    time_delta = 30 # By default data is aggregated by month
+    time_delta = 'weekly' # By default data is aggregated by month
     title = None
+    start_datetime = None #
+    end_datetime = None
+    is_attribute = False # set to True, if graph to be rendered for a specific attribute
+    model_attributes = None #Mandatory, if is_attribute is set to True.
+    weeks = 20
 
     def __init__(self, model, analytics):
         self.model = model
@@ -48,40 +55,58 @@ class AnalyticsModel(object):
 
         return urlpatterns
 
+
     def urls(self):
         return self.get_urls()
     urls = property(urls)
 
+
+    def get_graph_title(self):
+        if self.title:
+            return self.title
+        else:
+            return '%s %s' %(self.model._meta.module_name, 'Analytics')
+
     def analytics_view(self, request, applabel):
+        """View to render graph for a registered model
+        """
         template = 'index.html'
 
         graph_meta = { 'Model': self.model }
 
-        start_datetime = getattr(self, 'start_datetime', None)
+        start_datetime = getattr(self, 'start_datetime')
         if start_datetime:
             graph_meta['start_datetime'] = self.start_datetime
 
-        end_datetime = getattr(self, 'end_datetime', None)
+        end_datetime = getattr(self, 'end_datetime')
         if end_datetime:
             graph_meta['end_datetime'] = self.end_datetime
 
-        graph_option = getattr(self, 'graph_option', None)
+        if start_datetime is None and end_datetime is None:
+            graph_meta['start_datetime'] = datetime.now() - timedelta(weeks=self.weeks)
 
-        if graph_option == 'MODEL_ATTRIBUTE':
-            graph_meta['model_attribute'] = self.model_attribute
+        graph_meta['time_delta'] = self.time_delta
+
+        is_attribute = getattr(self, 'is_attribute')
+
+        if is_attribute and self.model_attributes:
+            graph_meta['model_attributes'] = self.model_attributes
             graph_data = get_attribute_value_frequency_graph_data(
                     graph_meta)
         else:
             graph_data = get_model_entries_graph_data(
                     graph_meta)
 
-        graph_type = self.graph_type
+        ctx = {'title': self.get_graph_title()}
+        if graph_data['graph']:
+            graph_type = self.graph_type
 
-        ctx = {
-            'graph_data': graph_data,
-            'graph_type': graph_type,
-            'title': self.title,
-        }
-
+            ctx.update({
+                'graph_data': graph_data,
+                'graph_type': graph_type,
+                
+            })
+        else:
+            template = 'empty_state.html'
         ctx = RequestContext(request, ctx)
         return render_to_response(template, ctx)

@@ -2,13 +2,9 @@
 
 {% block title%}Home{% endblock %}
 
-{% block extra_head %}
-<link href="{{ STATIC_URL }}d3_charts/css/d3_charts.css" rel="stylesheet">
-{% endblock %}
-
 {% block content %}
 
-    <h2>Model Analytics</h2>
+    <h2>Analytics</h2>
 
     {% for app in app_list %}
     <div class="app-{{ app.app_label }} module">
@@ -32,5 +28,3 @@
     </div>
     {% endfor %}
 {% endblock %}
-
-
